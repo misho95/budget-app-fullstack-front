@@ -16,7 +16,9 @@ const router = createBrowserRouter([
     path: "/signup",
     element: (
       <ContentContainer
-        customStyle={"pt-[30px] sm:justify-center bg-neutral-100"}
+        customStyle={
+          "pt-[30px] sm:justify-center bg-neutral-100 bg-[url('./assets/sakura-bg.avif')] bg-cover"
+        }
       >
         <ResponsContainer customStyle={""}>
           <SingUpPage />
