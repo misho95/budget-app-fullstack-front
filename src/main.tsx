@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     element: (
       <ContentContainer
         customStyle={
-          "pt-[30px] sm:justify-center bg-neutral-100 bg-[url('./assets/sakura-bg.avif')] bg-cover"
+          "pt-[30px] sm:justify-center bg-neutral-100 bg-[url('./assets/123.jpg')] bg-cover"
         }
       >
         <ResponsContainer customStyle={""}>
