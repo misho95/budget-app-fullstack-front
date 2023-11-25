@@ -14,7 +14,7 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: (
-      <ContentContainer customStyle={"items-center bg-neutral-800"}>
+      <ContentContainer customStyle={"items-center bg-neutral-300"}>
         <ResponsContainer customStyle={""}>
           <SingUpPage />
         </ResponsContainer>
