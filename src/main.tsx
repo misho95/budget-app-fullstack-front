@@ -5,11 +5,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ContentContainer from "./components/shared/content.container";
 import SingUpPage from "./pages/signup.page";
 import ResponsContainer from "./components/shared/respons.container";
+import HomePage from "./pages/home.page";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: "",
+    element: <HomePage />,
   },
   {
     path: "/signup",

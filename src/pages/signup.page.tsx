@@ -45,7 +45,10 @@ const SingUpPage = () => {
                 SignUp
               </Link>
             </div>
-            <ReCAPTCHA sitekey="Your client site key" onChange={onChange} />
+            <ReCAPTCHA
+              sitekey="6LdlLBwpAAAAAMRfZ44xnzE6UfEwhr77oNyH4slq"
+              onChange={onChange}
+            />
             <FormButton title={"SignUp"} />
           </form>
         </div>
