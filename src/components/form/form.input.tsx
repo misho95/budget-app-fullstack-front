@@ -11,7 +11,8 @@ const FormInput = ({ title, type, placeHolder }: PropsType) => {
       <input
         type={type}
         placeholder={placeHolder}
-        className="w-full h-[50px] p-2 bg-red-800 text-red-200 placeholder:text-red-300 focus:outline-none rounded-lg"
+        className="w-full h-[40px] p-2 bg-red-800/80 focus:bg-red-800 text-red-200 placeholder:text-red-300 focus:outline-none rounded-lg"
+        autoComplete={"on"}
       />
     </label>
   );

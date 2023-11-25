@@ -8,7 +8,7 @@ interface PropsType {
 const ContentContainer = ({ children, customStyle }: PropsType) => {
   return (
     <div
-      className={`w-full min-h-screen flex flex-col justify-center gap-[20px] ${customStyle}`}
+      className={`w-full min-h-screen flex flex-col items-center gap-[20px] ${customStyle}`}
     >
       {children}
     </div>
