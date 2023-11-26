@@ -12,7 +12,7 @@ export interface InputType {
   error: null | string;
 }
 
-const SingUpPage = () => {
+const SingInPage = () => {
   const animateFormContainer = useSpring({
     from: { opacity: 0 },
     to: { opacity: 1 },
@@ -25,14 +25,6 @@ const SingUpPage = () => {
 
   const navigate = useNavigate();
 
-  const [firstName, setFirstName] = useState<InputType>({
-    value: "",
-    error: null,
-  });
-  const [userName, setUserName] = useState<InputType>({
-    value: "",
-    error: null,
-  });
   const [email, setEmail] = useState<InputType>({
     value: "",
     error: null,
@@ -41,29 +33,11 @@ const SingUpPage = () => {
     value: "",
     error: null,
   });
-  const [rePassword, setRePassword] = useState<InputType>({
-    value: "",
-    error: null,
-  });
 
   const submitSignUpForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let value = 0;
-
-    if (firstName.value === "") {
-      setFirstName({ value: firstName.value, error: "empty!" });
-    } else {
-      setFirstName({ value: firstName.value, error: null });
-      value += 1;
-    }
-
-    if (userName.value === "") {
-      setUserName({ value: userName.value, error: "empty!" });
-    } else {
-      setUserName({ value: userName.value, error: null });
-      value += 1;
-    }
 
     if (email.value === "") {
       setEmail({ value: email.value, error: "empty!" });
@@ -79,28 +53,12 @@ const SingUpPage = () => {
       value += 1;
     }
 
-    if (rePassword.value === "") {
-      setRePassword({ value: rePassword.value, error: "empty!" });
-    } else {
-      setRePassword({ value: rePassword.value, error: null });
-      value += 1;
-    }
-
-    if (value < 5) {
+    if (value < 2) {
       return;
-    }
-
-    if (password.value !== rePassword.value) {
-      setRePassword({ value: rePassword.value, error: "Not Match!" });
-      return;
-    } else {
-      setRePassword({ value: rePassword.value, error: null });
     }
 
     axios
-      .post("https://budget-app-bz54x.ondigitalocean.app/api/auth/signup", {
-        firstName: firstName.value,
-        username: userName.value,
+      .post("https://budget-app-bz54x.ondigitalocean.app/api/auth/signin", {
         email: email.value,
         password: password.value,
       })
@@ -112,11 +70,7 @@ const SingUpPage = () => {
       })
       .catch(function (error) {
         const message = error.response.data.message;
-        if (message === "email taken!") {
-          setEmail({ value: email.value, error: "Email Taken!" });
-        } else {
-          setEmail({ value: email.value, error: null });
-        }
+        console.log(message);
       });
   };
 
@@ -137,26 +91,12 @@ const SingUpPage = () => {
         <img src={samurai} className="hidden lg:block" />
         <div className="bg-black w-full h-full flex flex-col gap-[10px] pt-[10px]">
           <h1 className="text-[30px] text-white select-none w-full text-center">
-            SignUp
+            SignIn
           </h1>
           <form
             onSubmit={submitSignUpForm}
             className="p-[20px] w-full h-fit flex flex-col gap-[10px] items-center "
           >
-            <FormInput
-              title={"FirstName"}
-              type={"text"}
-              placeHolder={"FirstName"}
-              input={firstName}
-              setInput={setFirstName}
-            />
-            <FormInput
-              title={"UserName"}
-              type={"text"}
-              placeHolder={"UserName"}
-              input={userName}
-              setInput={setUserName}
-            />
             <FormInput
               title={"Email"}
               type={"email"}
@@ -171,21 +111,14 @@ const SingUpPage = () => {
               input={password}
               setInput={setPassword}
             />
-            <FormInput
-              title={"Re-Password"}
-              type={"password"}
-              placeHolder={"********"}
-              input={rePassword}
-              setInput={setRePassword}
-            />
 
             <div className="text-white/50 flex gap-[10px]">
-              <span>Already Have An Account?</span>
-              <Link to={"/signin"} className="text-sky-500">
-                SignIn
+              <span>Don't Have An Account?</span>
+              <Link to={"/signup"} className="text-sky-500">
+                SignUp
               </Link>
             </div>
-            <FormButton title={"SignUp"} />
+            <FormButton title={"SignIn"} />
           </form>
         </div>
       </animated.div>
@@ -193,4 +126,4 @@ const SingUpPage = () => {
   );
 };
 
-export default SingUpPage;
+export default SingInPage;

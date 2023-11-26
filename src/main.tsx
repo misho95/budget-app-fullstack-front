@@ -6,11 +6,21 @@ import ContentContainer from "./components/shared/content.container";
 import SingUpPage from "./pages/signup.page";
 import ResponsContainer from "./components/shared/respons.container";
 import HomePage from "./pages/home.page";
+import SingInPage from "./pages/signin.page";
+import ProtectedRout from "./utils/protected.rout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <ContentContainer customStyle="">
+        <ResponsContainer customStyle="">
+          <ProtectedRout>
+            <HomePage />
+          </ProtectedRout>
+        </ResponsContainer>
+      </ContentContainer>
+    ),
   },
   {
     path: "/signup",
@@ -22,6 +32,20 @@ const router = createBrowserRouter([
       >
         <ResponsContainer customStyle={""}>
           <SingUpPage />
+        </ResponsContainer>
+      </ContentContainer>
+    ),
+  },
+  {
+    path: "/signin",
+    element: (
+      <ContentContainer
+        customStyle={
+          "pt-[30px] sm:justify-center bg-neutral-100 bg-[url('./assets/123.jpg')] bg-cover"
+        }
+      >
+        <ResponsContainer customStyle={""}>
+          <SingInPage />
         </ResponsContainer>
       </ContentContainer>
     ),
