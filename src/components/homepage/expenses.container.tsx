@@ -29,6 +29,21 @@ const ExpensesContainer = () => {
       });
   }, []);
 
+  const deleteExpense = (id: string) => {
+    axiosInstance
+      .delete(`/api/expenses/${id}`)
+      .then(() => {
+        setExpenseData(
+          expenseData.filter((e) => {
+            if (e._id !== id) return e;
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="flex flex-col gap-[20px]">
       {expenseData.map((expense) => {
@@ -41,6 +56,7 @@ const ExpensesContainer = () => {
             category={expense.category}
             amount={expense.amount}
             createdAt={expense.createdAt}
+            deleteExpense={deleteExpense}
           />
         );
       })}

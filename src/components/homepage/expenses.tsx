@@ -2,8 +2,8 @@ import { MdFavorite } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
-import axios from "axios";
 import axiosInstance from "../../utils/axios";
+import { useState } from "react";
 
 interface PropsType {
   id: string;
@@ -12,23 +12,27 @@ interface PropsType {
   category: string;
   amount: number;
   createdAt: string;
+  deleteExpense: (id: string) => void;
 }
 
 const Expense = ({
   id,
-  isArchived,
+  isArchived: initialIsArchived,
   type,
   category,
   amount,
   createdAt,
+  deleteExpense,
 }: PropsType) => {
+  const [isArchived, setIsArchived] = useState(initialIsArchived);
+
   const archiveExpense = () => {
     axiosInstance
       .put(`/api/expenses/archive/${id}?archived=${isArchived ? false : true}`)
-      .then(function (response) {
-        console.log(response.data);
+      .then(() => {
+        setIsArchived(!isArchived);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error.response.data.message);
       });
   };
@@ -37,44 +41,27 @@ const Expense = ({
     <div
       className={`w-full p-[10px] ${
         type === "expense" ? "bg-pink-200" : "bg-indigo-200"
-      } rounded-lg shadow-sm flex justify-between items-center font-semibold font-sans`}
+      } rounded-lg shadow-sm flex justify-between items-center font-semibold font-sans opacity-60 hover:opacity-100 duration-150`}
     >
-      <span className="w-1/5 text-black/50 hover:text-black/90">
-        {createdAt}
-      </span>
-      <span className="w-1/5 text-black/50 hover:text-black/90">{type}</span>
-      <span className="w-1/5 text-black/50 hover:text-black/90">
-        {category}
-      </span>
-      <span className="w-1/5 text-black/50 hover:text-black/90">{amount}</span>
+      <span className="w-1/5 ">{createdAt}</span>
+      <span className="w-1/5 ">{type}</span>
+      <span className="w-1/5 ">{category}</span>
+      <span className="w-1/5 ">{amount}</span>
       <span className="w-1/5 flex gap-[10px] ">
         <MdDelete
-          className={
-            "h-[25px] w-[25px] text-black/50 hover:text-black/80 duration-100"
-          }
+          className={"h-[25px] w-[25px]"}
+          onClick={() => deleteExpense(id)}
         />
-        <FaEdit
-          className={
-            "h-[25px] w-[25px] text-black/50 hover:text-black/80 duration-100"
-          }
-        />
+        <FaEdit className={"h-[25px] w-[25px]"} />
       </span>
       <span className={``}>
         {isArchived ? (
           <button onClick={archiveExpense}>
-            <MdFavorite
-              className={
-                "h-[25px] w-[25px] text-black/50 hover:text-black/80 duration-100"
-              }
-            />
+            <MdFavorite className={"h-[25px] w-[25px]"} />
           </button>
         ) : (
           <button onClick={archiveExpense}>
-            <MdFavoriteBorder
-              className={
-                "h-[25px] w-[25px] text-black/50 hover:text-black/80 duration-100"
-              }
-            />
+            <MdFavoriteBorder className={"h-[25px] w-[25px] "} />
           </button>
         )}
       </span>
