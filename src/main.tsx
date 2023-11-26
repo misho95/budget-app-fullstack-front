@@ -9,6 +9,7 @@ import HomePage from "./pages/home.page";
 import SingInPage from "./pages/signin.page";
 import ProtectedRout from "./utils/protected.rout";
 import Header from "./components/header/header";
+import InvoicePage from "./pages/invoice.page";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,19 @@ const router = createBrowserRouter([
           <ProtectedRout>
             <Header />
             <HomePage />
+          </ProtectedRout>
+        </ResponsContainer>
+      </ContentContainer>
+    ),
+  },
+  {
+    path: "/invoice",
+    element: (
+      <ContentContainer customStyle="bg-neutral-100">
+        <ResponsContainer customStyle="">
+          <ProtectedRout>
+            <Header />
+            <InvoicePage />
           </ProtectedRout>
         </ResponsContainer>
       </ContentContainer>

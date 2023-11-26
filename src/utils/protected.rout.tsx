@@ -27,6 +27,7 @@ const ProtectedRout = ({ children }: PropsType) => {
         },
       })
       .then(function (response) {
+        console.log(response.data);
         setUser(response.data);
       })
       .catch(function (error) {
