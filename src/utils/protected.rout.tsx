@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ReactNode, useLayoutEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { userGlobalStore } from "./zustand.store";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const ProtectedRout = ({ children }: PropsType) => {
   const user = userGlobalStore((state) => state.user);
   const setUser = userGlobalStore((state) => state.setUser);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const token = localStorage.getItem("accessToken");
 
     if (!token) {
