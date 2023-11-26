@@ -1,9 +1,13 @@
 import axios from "axios";
-import { useLayoutEffect } from "react";
+import { ReactNode, useLayoutEffect } from "react";
 import { userGlobalStore } from "./zustand.store";
 import { useNavigate } from "react-router-dom";
 
-const ProtectedRout = ({ children }) => {
+interface PropsType {
+  children: ReactNode;
+}
+
+const ProtectedRout = ({ children }: PropsType) => {
   const navigate = useNavigate();
   const user = userGlobalStore((state) => state.user);
   const setUser = userGlobalStore((state) => state.setUser);

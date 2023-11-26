@@ -8,14 +8,16 @@ import ResponsContainer from "./components/shared/respons.container";
 import HomePage from "./pages/home.page";
 import SingInPage from "./pages/signin.page";
 import ProtectedRout from "./utils/protected.rout";
+import Header from "./components/header/header";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ContentContainer customStyle="">
+      <ContentContainer customStyle="bg-neutral-100">
         <ResponsContainer customStyle="">
           <ProtectedRout>
+            <Header />
             <HomePage />
           </ProtectedRout>
         </ResponsContainer>

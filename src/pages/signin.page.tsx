@@ -13,6 +13,14 @@ export interface InputType {
 }
 
 const SingInPage = () => {
+  const user = userGlobalStore((state) => state.user);
+
+  useLayoutEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
+
   const animateFormContainer = useSpring({
     from: { opacity: 0 },
     to: { opacity: 1 },
@@ -73,14 +81,6 @@ const SingInPage = () => {
         console.log(message);
       });
   };
-
-  const user = userGlobalStore((state) => state.user);
-
-  useLayoutEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, []);
 
   return (
     <div className="w-full flex justify-center">
