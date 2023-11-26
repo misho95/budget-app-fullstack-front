@@ -3,6 +3,7 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
+import axiosInstance from "../../utils/axios";
 
 interface PropsType {
   id: string;
@@ -22,22 +23,13 @@ const Expense = ({
   createdAt,
 }: PropsType) => {
   const archiveExpense = () => {
-    const token = localStorage.getItem("accessToken");
-    const link = `https://budget-app-bz54x.ondigitalocean.app/api/expenses/archive/${id}?archived=${
-      isArchived ? false : true
-    }`;
-    axios
-      .put(link, {
-        headers: {
-          Authorization: token,
-        },
-      })
+    axiosInstance
+      .put(`/api/expenses/archive/${id}?archived=${isArchived ? false : true}`)
       .then(function (response) {
-        console.log(response);
+        console.log(response.data);
       })
       .catch(function (error) {
-        const message = error.response.data.message;
-        console.log(message);
+        console.log(error.response.data.message);
       });
   };
 

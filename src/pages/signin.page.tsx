@@ -6,6 +6,7 @@ import { animated, useSpring } from "@react-spring/web";
 import { useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { userGlobalStore } from "../utils/zustand.store";
+import axiosInstance from "../utils/axios";
 
 export interface InputType {
   value: string;
@@ -65,8 +66,8 @@ const SingInPage = () => {
       return;
     }
 
-    axios
-      .post("https://budget-app-bz54x.ondigitalocean.app/api/auth/signin", {
+    axiosInstance
+      .post("/api/auth/signin", {
         email: email.value,
         password: password.value,
       })

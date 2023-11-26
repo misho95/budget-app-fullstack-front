@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { MdErrorOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axios";
 
 const InvoicePage = () => {
   const animatedPage = useSpring({
@@ -36,22 +37,12 @@ const InvoicePage = () => {
       return;
     }
 
-    const token = localStorage.getItem("accessToken");
-
-    axios
-      .post(
-        "https://budget-app-bz54x.ondigitalocean.app/api/expenses",
-        {
-          category,
-          type,
-          amount: +amount.value,
-        },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
+    axiosInstance
+      .post("/api/expenses", {
+        category,
+        type,
+        amount: +amount.value,
+      })
       .then(function () {
         navigate("/");
       })

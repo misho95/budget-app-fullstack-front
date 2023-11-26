@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Expense from "./expenses";
-import axios from "axios";
+import axiosInstance from "../../utils/axios";
 
 interface ExpenseType {
   _id: string;
@@ -18,13 +18,8 @@ const ExpensesContainer = () => {
   const [expenseData, setExpenseData] = useState<ExpenseType[]>([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    axios
-      .get("https://budget-app-bz54x.ondigitalocean.app/api/expenses", {
-        headers: {
-          Authorization: token,
-        },
-      })
+    axiosInstance
+      .get("/api/expenses", {})
       .then(function (response) {
         setExpenseData(response.data);
       })

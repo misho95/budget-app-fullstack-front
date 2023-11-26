@@ -1,7 +1,7 @@
-import axios from "axios";
 import { ReactNode, useEffect } from "react";
 import { userGlobalStore } from "./zustand.store";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "./axios";
 
 interface PropsType {
   children: ReactNode;
@@ -20,14 +20,11 @@ const ProtectedRout = ({ children }: PropsType) => {
       return;
     }
 
-    axios
-      .get("https://budget-app-bz54x.ondigitalocean.app/api/auth/session", {
-        headers: {
-          Authorization: token,
-        },
-      })
+    axiosInstance.defaults.headers.common["Authorization"] = token;
+
+    axiosInstance
+      .get("/api/auth/session", {})
       .then(function (response) {
-        console.log(response.data);
         setUser(response.data);
       })
       .catch(function (error) {
