@@ -52,6 +52,12 @@ const InvoicePage = () => {
       });
   };
 
+  const amountCheckIfNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (Number.isInteger(+e.target.value)) {
+      setAmount({ value: e.target.value, error: null });
+    }
+  };
+
   return (
     <animated.div style={{ ...animatedPage }} className="flex justify-center">
       <form
@@ -68,7 +74,7 @@ const InvoicePage = () => {
             placeholder={"amount"}
             className="w-full p-3 focus:outline-none"
             value={amount.value}
-            onChange={(e) => setAmount({ value: e.target.value, error: null })}
+            onChange={amountCheckIfNumber}
           />
           {amount.error && (
             <div className="absolute top-[45px] right-[12px] flex gap-[5px] items-center text-black/70">
