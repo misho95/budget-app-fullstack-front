@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Expense from "./expenses";
 import axiosInstance from "../../utils/axios";
 import SearchExpense from "./search.expense";
-import { error } from "console";
 
 interface ExpenseType {
   _id: string;

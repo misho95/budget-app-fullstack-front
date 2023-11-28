@@ -1,5 +1,5 @@
 import { animated, useSpring } from "@react-spring/web";
-import axios from "axios";
+
 import { useState } from "react";
 import { MdErrorOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";

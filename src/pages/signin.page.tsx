@@ -4,7 +4,6 @@ import FormButton from "../components/form/form.button";
 import FormInput from "../components/form/form.input";
 import { animated, useSpring } from "@react-spring/web";
 import { useLayoutEffect, useState } from "react";
-import axios from "axios";
 import { userGlobalStore } from "../utils/zustand.store";
 import axiosInstance from "../utils/axios";
 
