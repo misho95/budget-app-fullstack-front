@@ -41,6 +41,15 @@ const SearchExpense = ({
     setSearch(search && false);
   };
 
+  const amountCheckIfNumber = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    set: (arg: string) => void
+  ) => {
+    if (Number.isInteger(+e.target.value)) {
+      set(e.target.value);
+    }
+  };
+
   const submitSearchReset = () => {
     setDateFrom("");
     setDateTo("");
@@ -125,7 +134,7 @@ const SearchExpense = ({
           <div>Amount-Min</div>
           <input
             value={minAmount}
-            onChange={(e) => setMinAmount(e.target.value)}
+            onChange={(e) => amountCheckIfNumber(e, setMinAmount)}
             type="text"
             className="h-[50px] border-[1px] border-black/20 hover:border-black/50 bg-transparent p-[10px] rounded-xl w-[110px]"
           />
@@ -134,7 +143,7 @@ const SearchExpense = ({
           <div>Amount-Max</div>
           <input
             value={maxAmount}
-            onChange={(e) => setMaxAmount(e.target.value)}
+            onChange={(e) => amountCheckIfNumber(e, setMaxAmount)}
             type="text"
             className="h-[50px] border-[1px] border-black/20 hover:border-black/50 bg-transparent p-[10px] rounded-xl w-[110px]"
           />
