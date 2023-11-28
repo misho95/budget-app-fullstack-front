@@ -18,6 +18,7 @@ interface ExpenseType {
 const ExpensesContainer = () => {
   const [expenseData, setExpenseData] = useState<ExpenseType[]>([]);
   const [sort, setSort] = useState("default");
+  const [search, setSearch] = useState(false);
 
   const searchExpensesHandler = (
     dateFrom: string | null,
@@ -34,7 +35,6 @@ const ExpensesContainer = () => {
     }${minAmount ? `&min_amount=${minAmount}` : ""}${
       maxAmount ? `&max_amount=${maxAmount}` : ""
     }`;
-    console.log(link);
     axiosInstance
       .get(link)
       .then(function (response) {
@@ -124,8 +124,16 @@ const ExpensesContainer = () => {
       <SearchExpense
         searchExpensesHandler={searchExpensesHandler}
         resetSearch={resetSearch}
+        search={search}
+        setSearch={setSearch}
       />
-      <div>
+      <div className="flex justify-between items-center">
+        <button
+          onClick={() => setSearch(true)}
+          className="bg-indigo-500 h-[50px] w-[120px] p-[10px] rounded-lg text-white lg:hidden"
+        >
+          Search
+        </button>
         <label>
           <div className="pl-[10px]">Sort</div>
           <select
