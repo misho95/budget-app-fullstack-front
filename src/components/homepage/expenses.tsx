@@ -49,20 +49,24 @@ const Expense = ({
       <span className="w-1/5 ">{amount}</span>
       <span className="w-1/5 flex gap-[10px] ">
         <MdDelete
-          className={"h-[25px] w-[25px]"}
+          className={"h-[25px] w-[25px] hover:scale-125 cursor-pointer"}
           onClick={() => deleteExpense(id)}
         />
-        <FaEdit className={"h-[25px] w-[25px]"} />
+        <FaEdit
+          className={"h-[25px] w-[25px] hover:scale-125 cursor-pointer"}
+        />
       </span>
       <span className={``}>
         {isArchived ? (
-          <button onClick={archiveExpense}>
-            <MdFavorite className={"h-[25px] w-[25px]"} />
-          </button>
+          <MdFavorite
+            onClick={archiveExpense}
+            className={"h-[25px] w-[25px] hover:scale-125 cursor-pointer"}
+          />
         ) : (
-          <button onClick={archiveExpense}>
-            <MdFavoriteBorder className={"h-[25px] w-[25px] "} />
-          </button>
+          <MdFavoriteBorder
+            onClick={archiveExpense}
+            className={"h-[25px] w-[25px] hover:scale-125 cursor-pointer"}
+          />
         )}
       </span>
     </div>

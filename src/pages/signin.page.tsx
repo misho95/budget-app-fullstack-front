@@ -79,7 +79,8 @@ const SingInPage = () => {
       })
       .catch(function (error) {
         const message = error.response.data.message;
-        console.log(message);
+        setEmail({ value: email.value, error: message });
+        setPassword({ value: password.value, error: message });
       });
   };
 
