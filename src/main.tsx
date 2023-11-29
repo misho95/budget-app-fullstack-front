@@ -10,6 +10,7 @@ import SingInPage from "./pages/signin.page";
 import ProtectedRout from "./utils/protected.rout";
 import Header from "./components/header/header";
 import InvoicePage from "./pages/invoice.page";
+import StatsTitle from "./components/header/stats.title";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       <ContentContainer customStyle="bg-neutral-100">
         <ResponsContainer customStyle="">
           <ProtectedRout>
+            <StatsTitle />
             <Header />
             <HomePage />
           </ProtectedRout>
@@ -31,6 +33,21 @@ const router = createBrowserRouter([
       <ContentContainer customStyle="bg-neutral-100">
         <ResponsContainer customStyle="">
           <ProtectedRout>
+            <StatsTitle />
+            <Header />
+            <InvoicePage />
+          </ProtectedRout>
+        </ResponsContainer>
+      </ContentContainer>
+    ),
+  },
+  {
+    path: "/invoice/:expenseId",
+    element: (
+      <ContentContainer customStyle="bg-neutral-100">
+        <ResponsContainer customStyle="">
+          <ProtectedRout>
+            <StatsTitle />
             <Header />
             <InvoicePage />
           </ProtectedRout>

@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import axiosInstance from "../../utils/axios";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface PropsType {
   id: string;
@@ -55,9 +56,11 @@ const Expense = ({
             className={"h-[25px] w-[25px] hover:scale-125 cursor-pointer"}
             onClick={() => deleteExpense(id)}
           />
-          <FaEdit
-            className={"h-[25px] w-[25px] hover:scale-125 cursor-pointer"}
-          />
+          <Link to={`/invoice/${id}`}>
+            <FaEdit
+              className={"h-[25px] w-[25px] hover:scale-125 cursor-pointer"}
+            />
+          </Link>
         </span>
         <span className={``}>
           {isArchived ? (

@@ -1,7 +1,7 @@
 export const links = [
   {
-    name: "Profile",
-    link: "/profile",
+    name: "Home",
+    link: "/",
   },
   {
     name: "Invoice",

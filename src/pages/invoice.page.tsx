@@ -1,8 +1,8 @@
 import { animated, useSpring } from "@react-spring/web";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdErrorOutline } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../utils/axios";
 
 const InvoicePage = () => {
@@ -28,6 +28,7 @@ const InvoicePage = () => {
   const [type, setType] = useState("expense");
   const [category, setCategory] = useState("shopping");
   const navigate = useNavigate();
+  const { expenseId } = useParams();
 
   const submitNewExpense = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,14 +59,46 @@ const InvoicePage = () => {
     }
   };
 
+  const editExpense = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    axiosInstance
+      .put(`/api/expenses/${expenseId}`, {
+        category,
+        type,
+        amount: +amount.value,
+      })
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (expenseId) {
+      axiosInstance
+        .get(`/api/expenses/${expenseId}`, {})
+        .then((res) => {
+          const { amount, category, type } = res.data;
+          setAmount({ value: amount, error: null });
+          setCategory(category);
+          setType(type);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+
   return (
     <animated.div style={{ ...animatedPage }} className="flex justify-center">
       <form
-        onSubmit={submitNewExpense}
+        onSubmit={expenseId ? editExpense : submitNewExpense}
         className="w-[500px] flex flex-col gap-[15px]"
       >
         <h1 className="text-[28px] text-indigo-500 text-center select-none font-semibold">
-          ADD NEW INVOICE
+          {expenseId ? "Edit EXPENSE" : "ADD NEW EXPENSE"}
         </h1>
         <label className="w-full border-[3px] border-white/80 rounded-xl overflow-hidden bg-pink-500 relative">
           <div className="py-[5px] px-[10px] text-white">Amount</div>
@@ -116,7 +149,7 @@ const InvoicePage = () => {
           </select>
         </label>
         <button className="bg-indigo-500 p-3 rounded-full text-white">
-          Add New Expense
+          {expenseId ? "Edit Expense" : "Add New Expense"}
         </button>
       </form>
     </animated.div>
