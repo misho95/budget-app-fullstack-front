@@ -21,7 +21,7 @@ const BurgerMenu = ({ setOpenMenu }: PropsType) => {
   });
 
   return (
-    <nav className="sm:hidden w-full min-h-screen bg-black/30 fixed top-[96px] left-0 backdrop-blur-3xl z-50 select-none overflow-hidden">
+    <nav className="sm:hidden w-full min-h-screen bg-black/30 fixed top-[126px] left-0 backdrop-blur-3xl z-50 select-none overflow-hidden">
       <animated.div
         style={{ ...animatedBurgerMenu }}
         className=" bg-Black py-10 flex flex-col items-center gap-[26px]"
