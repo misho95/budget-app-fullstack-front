@@ -148,7 +148,7 @@ const InvoicePage = () => {
             )}
           </select>
         </label>
-        <button className="bg-indigo-500 p-3 rounded-full text-white">
+        <button className="bg-indigo-500 p-3 rounded-full text-white sm:hover:scale-95 duration-200">
           {expenseId ? "Edit Expense" : "Add New Expense"}
         </button>
       </form>

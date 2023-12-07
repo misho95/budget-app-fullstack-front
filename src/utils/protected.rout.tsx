@@ -29,6 +29,9 @@ const ProtectedRout = ({ children }: PropsType) => {
       .then((response) => {
         axiosInstance.defaults.headers.common["Authorization"] = token;
         setUser(response.data);
+        if (!response.data.active) {
+          axiosInstance.put("/api/auth/activate");
+        }
       })
       .catch(() => {
         navigate("/signin");

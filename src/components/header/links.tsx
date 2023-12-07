@@ -4,7 +4,15 @@ export const links = [
     link: "/",
   },
   {
+    name: "Profile",
+    link: `/profile/`,
+  },
+  {
     name: "Invoice",
     link: "/invoice",
+  },
+  {
+    name: "Users",
+    link: `/users`,
   },
 ];

@@ -65,7 +65,10 @@ const Header = () => {
         style={{ ...animatedHeader }}
         className="w-full h-[24px]  my-[36px] flex justify-between select-none"
       >
-        <Link to="/" className="text-[25px] font-semibold drop-shadow-sm">
+        <Link
+          to="/"
+          className="text-[25px] font-semibold drop-shadow-sm sm:hover:scale-95 duration-200"
+        >
           <span className="text-pink-500">BUDGET</span>-
           <span className="text-indigo-500">APP</span>
         </Link>
@@ -73,12 +76,16 @@ const Header = () => {
           <div className="flex gap-[50px] text-DarkGrey">
             {links.map((l, index) => {
               return (
-                <Link key={index} to={l.link} className="hover:underline">
+                <Link
+                  key={index}
+                  to={l.link}
+                  className="hover:underline sm:hover:scale-95 duration-200"
+                >
                   {l.name.toUpperCase()}
                 </Link>
               );
             })}
-            <SignOutButton customStyle={""} />
+            <SignOutButton customStyle={"sm:hover:scale-95 duration-200"} />
           </div>
         </span>
         <span className="block sm:hidden">

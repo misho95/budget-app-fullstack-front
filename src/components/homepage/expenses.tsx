@@ -44,7 +44,9 @@ const Expense = ({
         type === "expense" ? "bg-pink-200" : "bg-indigo-200"
       } rounded-lg shadow-sm flex flex-col gap-[10px] sm:flex-row justify-between items-center font-semibold font-sans opacity-60 hover:opacity-100 duration-150`}
     >
-      <span className="w-full sm:w-1/5">{createdAt}</span>
+      <span className="w-full sm:w-1/5">
+        {new Date(createdAt).toDateString()}
+      </span>
       <span className="w-full flex justify-between sm:w-1/3">
         <p>{type}</p>
         <p>{category}</p>

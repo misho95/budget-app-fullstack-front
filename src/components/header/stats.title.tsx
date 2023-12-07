@@ -47,7 +47,6 @@ const StatsTitle = () => {
       axiosInstance
         .get(`/api/expenses/count?type=type&&value=${k}`)
         .then((res) => {
-          console.log(res.data);
           setStats((p) => updateWithPrevData(p, k, res.data));
         })
         .catch((err) => {

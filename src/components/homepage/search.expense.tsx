@@ -151,13 +151,13 @@ const SearchExpense = ({
         <div className="pt-[25px] flex gap-[5px]">
           <button
             onClick={submitSearchReset}
-            className="bg-pink-500 h-[40px] w-[70px] text-white rounded-full"
+            className="bg-pink-500 h-[40px] w-[70px] text-white rounded-full sm:hover:scale-95 duration-200"
           >
             Reset
           </button>
           <button
             onClick={submitSearch}
-            className="bg-indigo-500 h-[40px] w-[70px] text-white rounded-full"
+            className="bg-indigo-500 h-[40px] w-[70px] text-white rounded-full sm:hover:scale-95 duration-200"
           >
             Filter
           </button>
