@@ -20,7 +20,14 @@ const ProtectedRout = ({ children }: PropsType) => {
       return;
     }
 
-    axiosInstance.defaults.headers.common["Authorization"] = token;
+    axiosInstance
+      .get("/api/auth/session")
+      .then(() => {
+        axiosInstance.defaults.headers.common["Authorization"] = token;
+      })
+      .catch(() => {
+        navigate("/signin");
+      });
 
     axiosInstance
       .get("/api/auth/session", {})
