@@ -21,21 +21,17 @@ const ProtectedRout = ({ children }: PropsType) => {
     }
 
     axiosInstance
-      .get("/api/auth/session")
-      .then(() => {
+      .get("/api/auth/session", {
+        headers: {
+          authorization: token,
+        },
+      })
+      .then((response) => {
         axiosInstance.defaults.headers.common["Authorization"] = token;
+        setUser(response.data);
       })
       .catch(() => {
         navigate("/signin");
-      });
-
-    axiosInstance
-      .get("/api/auth/session", {})
-      .then(function (response) {
-        setUser(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
       });
   }, []);
 
