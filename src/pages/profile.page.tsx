@@ -52,7 +52,7 @@ const ProfilePage = () => {
 
   const deleteUserProfile = () => {
     axiosInstance
-      .delete(`/api/auth/${userData?._id}`)
+      .delete(`/api/auth/${userToRender?._id}`)
       .then(() => {
         navigate("/");
       })
