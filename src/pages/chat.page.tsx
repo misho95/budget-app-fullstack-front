@@ -1,16 +1,9 @@
 import { animated, useSpring } from "@react-spring/web";
-import {
-  useState,
-  useEffect,
-  useRef,
-  useLayoutEffect,
-  useCallback,
-} from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import io, { Socket } from "socket.io-client";
 import axiosInstance from "../utils/axios";
 import { userGlobalStore } from "../utils/zustand.store";
-import { usePrevious } from "@uidotdev/usehooks";
 
 const ChatPage = () => {
   const animatedPage = useSpring({
