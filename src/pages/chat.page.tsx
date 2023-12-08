@@ -32,7 +32,8 @@ const ChatPage = () => {
 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [message, setMessage] = useState("");
-  const [chatLog, setChatLog] = useState<MessageType[]>([]);
+  // const [chatLog, setChatLog] = useState<MessageType[]>([]);
+  const [chatLog, setChatLog] = useState<string[]>([]);
   const chatContainer = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
@@ -42,13 +43,13 @@ const ChatPage = () => {
   }, []);
 
   useEffect(() => {
-    const newSocket = io("ws://localhost:8080/");
+    const newSocket = io("ws://localhost:8080");
     setSocket(newSocket);
 
-    console.log(newSocket);
-
     return () => {
-      newSocket.disconnect();
+      if (newSocket.connected) {
+        newSocket.disconnect();
+      }
     };
   }, []);
 
@@ -56,14 +57,16 @@ const ChatPage = () => {
     if (socket) {
       socket.emit("login", user?._id);
       socket.on("message", (msg: string) => {
-        axiosInstance
-          .post(`/api/chat/${userId}`, { message: msg })
-          .then((res) => {
-            setChatLog((prevChatLog) => [...prevChatLog, res.data]);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        console.log(msg);
+        setChatLog((prevChatLog) => [...prevChatLog, msg]);
+        // axiosInstance
+        //   .post(`/api/chat/${userId}`, { message: msg })
+        //   .then((res) => {
+        //     setChatLog((prevChatLog) => [...prevChatLog, res.data]);
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
       });
     }
 
@@ -106,13 +109,13 @@ const ChatPage = () => {
     }
   };
 
-  const checkForPrevChat = (index: number, idToCheck: string | undefined) => {
-    if (chatLog[index]?.sendFrom !== idToCheck) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+  // const checkForPrevChat = (index: number, idToCheck: string | undefined) => {
+  //   if (chatLog[index]?.sendFrom !== idToCheck) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // };
 
   return (
     <animated.div style={{ ...animatedPage }} className="flex justify-center">
@@ -122,32 +125,8 @@ const ChatPage = () => {
           className="h-[500px] overflow-y-auto flex flex-col gap-[5px]"
         >
           {chatLog.map((chat, index) => (
-            <div
-              key={chat._id}
-              className={`flex flex-col gap-[5px] w-full ${
-                chat.sendFrom === user?._id ? "self-start" : "self-end"
-              }`}
-            >
-              {checkForPrevChat(index - 1, chat.sendFrom) && (
-                <h6
-                  className={`text-[12px] text-black/60 ${
-                    chat.sendFrom === user?._id ? "self-start" : "self-end"
-                  }`}
-                >
-                  {chat.userName}
-                </h6>
-              )}
 
-              <div
-                className={`w-fit max-w-[200px]  p-[5px] rounded-lg text-white break-words ${
-                  chat.sendFrom === user?._id
-                    ? "bg-indigo-500 self-start"
-                    : "bg-pink-500 self-end"
-                }`}
-              >
-                {chat.message}
-              </div>
-            </div>
+           return <div>sss</div>;
           ))}
         </div>
         <form
@@ -171,3 +150,32 @@ const ChatPage = () => {
 };
 
 export default ChatPage;
+
+
+
+// <div
+// key={chat._id}
+// className={`flex flex-col gap-[5px] w-full ${
+//   chat.sendFrom === user?._id ? "self-start" : "self-end"
+// }`}
+// >
+// {checkForPrevChat(index - 1, chat.sendFrom) && (
+//   <h6
+//     className={`text-[12px] text-black/60 ${
+//       chat.sendFrom === user?._id ? "self-start" : "self-end"
+//     }`}
+//   >
+//     {chat.userName}
+//   </h6>
+// )}
+
+// <div
+//   className={`w-fit max-w-[200px]  p-[5px] rounded-lg text-white break-words ${
+//     chat.sendFrom === user?._id
+//       ? "bg-indigo-500 self-start"
+//       : "bg-pink-500 self-end"
+//   }`}
+// >
+//   {chat.message}
+// </div>
+// </div>
