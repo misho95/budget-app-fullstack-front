@@ -33,7 +33,9 @@ const ProtectedRout = ({ children }: PropsType) => {
           axiosInstance.put("/api/auth/activate");
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
+        localStorage.removeItem("accessToken");
         navigate("/signin");
       });
   }, []);

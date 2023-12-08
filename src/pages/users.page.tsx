@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../utils/axios";
 import { UserDataType } from "../utils/data.types";
 import { Link } from "react-router-dom";
+import { userGlobalStore } from "../utils/zustand.store";
 
 const UsersPage = () => {
   const animatedPage = useSpring({
@@ -16,6 +17,7 @@ const UsersPage = () => {
   });
 
   const [users, setUsers] = useState<UserDataType[]>([]);
+  const user = userGlobalStore((state) => state.user);
 
   useEffect(() => {
     axiosInstance
@@ -56,6 +58,14 @@ const UsersPage = () => {
                   {u.active ? "active" : "not Active"}
                 </p>
               </span>
+              {u._id !== user?._id && (
+                <Link
+                  to={`/chat/${u._id}`}
+                  className="bg-indigo-500 py-[3px] rounded-lg text-white sm:hover:scale-95 duration-200 flex justify-center items-center"
+                >
+                  Chat User
+                </Link>
+              )}
               <Link
                 to={`/profile/${u._id}`}
                 className="bg-pink-500 py-[3px] rounded-lg text-white sm:hover:scale-95 duration-200 flex justify-center items-center"

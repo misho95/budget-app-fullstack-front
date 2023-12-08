@@ -51,10 +51,20 @@ const ProfilePage = () => {
   };
 
   const deleteUserProfile = () => {
+    const userId = userToRender?._id;
     axiosInstance
-      .delete(`/api/auth/${userToRender?._id}`)
+      .delete(`/api/expenses/clear/${userId}`)
       .then(() => {
-        navigate("/");
+        axiosInstance
+          .delete(`/api/auth/${userId}`)
+          .then(() => {
+            localStorage.removeItem("accessToken");
+            clearUser();
+            navigate("/signin");
+          })
+          .catch(() => {
+            alert("NoT Allowed!");
+          });
       })
       .catch(() => {
         alert("NoT Allowed!");
@@ -63,7 +73,7 @@ const ProfilePage = () => {
 
   return (
     <animated.div style={{ ...animatedPage }} className="flex justify-center">
-      <div className="w-full lg:w-[500px] bg-white shadow-sm shadow-black/10 p-[20px] rounded-xl flex flex-col gap-[15px]">
+      <div className="w-11/12 lg:w-[500px] bg-white shadow-sm shadow-black/10 p-[20px] rounded-xl flex flex-col gap-[15px]">
         <div className={"flex flex-col gap-[5px]"}>
           <div className="flex gap-[10px] font-mono">
             <span className="font-semibold text-pink-500">UserName: </span>

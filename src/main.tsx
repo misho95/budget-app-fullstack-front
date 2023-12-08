@@ -13,6 +13,7 @@ import InvoicePage from "./pages/invoice.page";
 import StatsTitle from "./components/header/stats.title";
 import ProfilePage from "./pages/profile.page";
 import UsersPage from "./pages/users.page";
+import ChatPage from "./pages/chat.page";
 
 const router = createBrowserRouter([
   {
@@ -122,6 +123,20 @@ const router = createBrowserRouter([
             <StatsTitle />
             <Header />
             <UsersPage />
+          </ProtectedRout>
+        </ResponsContainer>
+      </ContentContainer>
+    ),
+  },
+  {
+    path: "/chat/:userId",
+    element: (
+      <ContentContainer customStyle="bg-neutral-100">
+        <ResponsContainer customStyle="">
+          <ProtectedRout>
+            <StatsTitle />
+            <Header />
+            <ChatPage />
           </ProtectedRout>
         </ResponsContainer>
       </ContentContainer>
