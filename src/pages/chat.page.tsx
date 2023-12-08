@@ -42,8 +42,10 @@ const ChatPage = () => {
   }, []);
 
   useEffect(() => {
-    const newSocket = io("http://budget-app-bz54x.ondigitalocean.app/");
+    const newSocket = io("ws://localhost:8080/");
     setSocket(newSocket);
+
+    console.log(newSocket);
 
     return () => {
       newSocket.disconnect();
