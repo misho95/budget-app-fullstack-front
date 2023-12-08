@@ -42,7 +42,7 @@ const ChatPage = () => {
   }, []);
 
   useEffect(() => {
-    const newSocket = io("ws://budget-app-bz54x.ondigitalocean.app/");
+    const newSocket = io("http://budget-app-bz54x.ondigitalocean.app/");
     setSocket(newSocket);
 
     return () => {
