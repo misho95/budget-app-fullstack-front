@@ -21,10 +21,19 @@ const ProfilePage = () => {
   const clearUser = userGlobalStore((state) => state.clearUser);
   const navigate = useNavigate();
   const [userToRender, setUserToRender] = useState<UserDataType | null>();
+  const [totalExpense, setTotalExpense] = useState<number>(0);
 
   useEffect(() => {
     if (!userId) {
       setUserToRender(userData);
+      axiosInstance
+        .get("api/expenses")
+        .then((res) => {
+          setTotalExpense(res.data.length);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       axiosInstance
         .get(`/api/auth/profile/${userId}`)
@@ -112,6 +121,12 @@ const ProfilePage = () => {
             <p className="font-semibold text-indigo-500">
               {userToRender?.active ? "Active" : "Not Active"}
             </p>
+          </div>
+          <div className="flex gap-[10px] font-mono">
+            <span className="font-semibold text-pink-500">
+              Total Expenses:{" "}
+            </span>
+            <p className="font-semibold text-indigo-500">{totalExpense}</p>
           </div>
         </div>
         <div className="flex justify-center gap-[10px]">
