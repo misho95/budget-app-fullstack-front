@@ -1,5 +1,5 @@
 import { animated, useSpring } from "@react-spring/web";
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useEffect, useRef, useLayoutEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import io, { Socket } from "socket.io-client";
 import axiosInstance from "../utils/axios";
@@ -63,6 +63,7 @@ const ChatPage = () => {
   useEffect(() => {
     if (socket) {
       socket.on("message", (res) => {
+        console.log(res.data);
         setChatLog((prevChatLog) => [...prevChatLog, res.data]);
       });
     }
@@ -106,6 +107,39 @@ const ChatPage = () => {
     }
   };
 
+  const renderedChatLog = useMemo(() => {
+    return chatLog.map((chat, index) => {
+      return (
+        <div
+          key={chat._id}
+          className={`flex flex-col gap-[5px] w-full ${
+            chat.sendFrom === user?._id ? "self-start" : "self-end"
+          }`}
+        >
+          {checkForPrevChat(index - 1, chat.sendFrom) && (
+            <h6
+              className={`text-[12px] text-black/60 ${
+                chat.sendFrom === user?._id ? "self-start" : "self-end"
+              }`}
+            >
+              {chat.userName}
+            </h6>
+          )}
+
+          <div
+            className={`w-fit max-w-[200px]  p-[5px] rounded-lg text-white break-words ${
+              chat.sendFrom === user?._id
+                ? "bg-indigo-500 self-start"
+                : "bg-pink-500 self-end"
+            }`}
+          >
+            {chat.message}
+          </div>
+        </div>
+      );
+    });
+  }, [chatLog]);
+
   return (
     <animated.div style={{ ...animatedPage }} className="flex justify-center">
       <div className="w-11/12 lg:w-[500px] bg-white shadow-sm shadow-black/10 p-[20px] rounded-xl flex flex-col gap-[15px]">
@@ -113,36 +147,7 @@ const ChatPage = () => {
           ref={chatContainer}
           className="h-[500px] overflow-y-auto flex flex-col gap-[5px]"
         >
-          {chatLog.map((chat, index) => {
-            return (
-              <div
-                key={chat._id}
-                className={`flex flex-col gap-[5px] w-full ${
-                  chat.sendFrom === user?._id ? "self-start" : "self-end"
-                }`}
-              >
-                {checkForPrevChat(index - 1, chat.sendFrom) && (
-                  <h6
-                    className={`text-[12px] text-black/60 ${
-                      chat.sendFrom === user?._id ? "self-start" : "self-end"
-                    }`}
-                  >
-                    {chat.userName}
-                  </h6>
-                )}
-
-                <div
-                  className={`w-fit max-w-[200px]  p-[5px] rounded-lg text-white break-words ${
-                    chat.sendFrom === user?._id
-                      ? "bg-indigo-500 self-start"
-                      : "bg-pink-500 self-end"
-                  }`}
-                >
-                  {chat.message}
-                </div>
-              </div>
-            );
-          })}
+          {renderedChatLog}
         </div>
         <form
           onSubmit={sendMessage}
@@ -153,7 +158,7 @@ const ChatPage = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type a message..."
-            className="w-full p-[10px] rounded-full border-none focus:outline-none"
+            className="w-full p-[10px] pr-[90px] rounded-full border-none focus:outline-none"
           />
           <button className="absolute top-1/2 -translate-y-1/2 right-[15px] bg-green-500 py-[7px] px-[20px] rounded-full text-black/95 border-[1px] border-black/30 sm:hover:scale-95 duration-200">
             Send
