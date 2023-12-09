@@ -46,7 +46,7 @@ const ProfilePage = () => {
           });
 
         axiosInstance
-          .get(`/api/expenses/${userId}`)
+          .get(`/api/expenses/user/${userId}`)
           .then((res) => {
             setTotalExpense(res.data.length);
           })
