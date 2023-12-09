@@ -50,7 +50,7 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    const newSocket = io("ws://localhost:8080");
+    const newSocket = io("ws://budget-app-bz54x.ondigitalocean.app/");
     setSocket(newSocket);
 
     return () => {
@@ -63,7 +63,6 @@ const ChatPage = () => {
   useEffect(() => {
     if (socket) {
       socket.on("message", (res) => {
-        console.log(res.data);
         setChatLog((prevChatLog) => [...prevChatLog, res.data]);
       });
     }
