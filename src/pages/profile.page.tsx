@@ -35,14 +35,27 @@ const ProfilePage = () => {
           console.log(err);
         });
     } else {
-      axiosInstance
-        .get(`/api/auth/profile/${userId}`)
-        .then((res) => {
-          setUserToRender(res.data);
-        })
-        .catch(() => {
-          alert("somthings wrong!");
-        });
+      try {
+        axiosInstance
+          .get(`/api/auth/profile/${userId}`)
+          .then((res) => {
+            setUserToRender(res.data);
+          })
+          .catch(() => {
+            alert("somthings wrong!");
+          });
+
+        axiosInstance
+          .get(`/api/expenses/${userId}`)
+          .then((res) => {
+            setTotalExpense(res.data.length);
+          })
+          .catch(() => {
+            alert("somthings wrong!");
+          });
+      } catch (err) {
+        console.log(err);
+      }
     }
   }, []);
 
