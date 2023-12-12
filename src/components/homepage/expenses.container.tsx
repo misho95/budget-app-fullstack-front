@@ -144,8 +144,8 @@ const ExpensesContainer = () => {
           >
             <option value={"default"}>Any</option>
             <option value={"date"}>Date</option>
-            <option value={"archived"}>Archived</option>
-            <option value={"notarchived"}>Not Archived</option>
+            <option value={"archived"}>Favorited</option>
+            <option value={"notarchived"}>Not Favorited</option>
           </select>
         </label>
       </div>
