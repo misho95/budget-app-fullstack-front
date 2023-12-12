@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Expense from "./expenses";
 import axiosInstance from "../../utils/axios";
 import SearchExpense from "./search.expense";
+import { Link } from "react-router-dom";
 
 interface ExpenseType {
   _id: string;
@@ -149,9 +150,17 @@ const ExpensesContainer = () => {
         </label>
       </div>
       {expenseData.length === 0 && (
-        <h3 className="text-[18px] text-center text-indigo-500 font-semibold">
-          no Expense data found...
-        </h3>
+        <div>
+          <h3 className="text-[18px] text-center text-indigo-500 font-semibold">
+            no Expense data found...
+          </h3>
+          <Link
+            to={"/invoice"}
+            className="flex justify-center items-center bg-pink-500 h-[40px] w-[70px] text-white rounded-full sm:hover:scale-95 duration-200"
+          >
+            Add New Expense
+          </Link>
+        </div>
       )}
       {expenseData.length > 0 &&
         expenseData.map((expense) => {
