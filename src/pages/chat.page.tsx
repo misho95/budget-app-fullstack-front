@@ -36,6 +36,7 @@ const ChatPage = () => {
   const [message, setMessage] = useState("");
   const [chatLog, setChatLog] = useState<MessageType[]>([]);
   const chatContainer = useRef<HTMLDivElement | null>(null);
+  const [getRoomId, setRoomId] = useState<null | string>(null);
 
   useLayoutEffect(() => {
     if (!userId || userId === user?._id) {
@@ -78,6 +79,7 @@ const ChatPage = () => {
       socket.on("connect", () => {
         if (user && userId) {
           const roomId = generateId(user?._id, userId);
+          setRoomId(roomId);
           socket.emit("joinRoom", roomId);
         }
 
@@ -93,6 +95,23 @@ const ChatPage = () => {
       });
     }
   }, [socket]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (socket) {
+        socket.emit("leaveRoom", getRoomId);
+        setRoomId(null);
+      }
+      event.preventDefault();
+      event.returnValue = ""; // Some browsers require a return value
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   useEffect(() => {
     scrollDown();
