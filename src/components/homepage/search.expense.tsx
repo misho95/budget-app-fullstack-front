@@ -103,7 +103,7 @@ const SearchExpense = ({
             onChange={(e) => setType(e.target.value)}
             className="h-[50px] border-[1px] border-black/20 hover:border-black/50 bg-transparent p-[10px] rounded-xl w-[110px]"
           >
-            <option value={""}></option>
+            <option value={""}>Any</option>
             <option value={"expense"}>Expense</option>
             <option value={"income"}>Income</option>
           </select>
@@ -115,7 +115,7 @@ const SearchExpense = ({
             onChange={(e) => setCategory(e.target.value)}
             className="h-[50px] border-[1px] border-black/20 hover:border-black/50 bg-transparent p-[10px] rounded-xl w-[110px]"
           >
-            <option value={""}></option>
+            <option value={""}>Any</option>
             {type === "expense" ? (
               <>
                 <option value={"shopping"}>Shopping</option>

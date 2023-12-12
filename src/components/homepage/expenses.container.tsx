@@ -142,7 +142,7 @@ const ExpensesContainer = () => {
             onChange={(e) => setSort(e.target.value)}
             className="border-[1px] rounded-xl p-[6px] border-black/30"
           >
-            <option value={"default"}></option>
+            <option value={"default"}>Any</option>
             <option value={"date"}>Date</option>
             <option value={"archived"}>Archived</option>
             <option value={"notarchived"}>Not Archived</option>
