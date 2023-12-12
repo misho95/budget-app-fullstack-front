@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import io, { Socket } from "socket.io-client";
 import axiosInstance from "../utils/axios";
 import { userGlobalStore } from "../utils/zustand.store";
+import { sha256 } from "js-sha256";
 
 const ChatPage = () => {
   const animatedPage = useSpring({
@@ -49,8 +50,19 @@ const ChatPage = () => {
     chatContainer.current.scrollTop = chatContainer.current.scrollHeight;
   };
 
+  function generateId(id1: string, id2: string) {
+    // Concatenate arguments and sort them
+    const combinedArgs = [String(id1), String(id2)].sort().join("");
+
+    // Create a SHA256 hash
+    const hashedId = sha256(combinedArgs);
+
+    return hashedId;
+  }
+
   useEffect(() => {
-    const newSocket = io("https://budget-app-bz54x.ondigitalocean.app/");
+    const url = "https://budget-app-bz54x.ondigitalocean.app/";
+    const newSocket = io(url);
     setSocket(newSocket);
 
     return () => {
@@ -62,8 +74,20 @@ const ChatPage = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.on("message", (res) => {
-        setChatLog((prevChatLog) => [...prevChatLog, res.data]);
+      socket.on("connect", () => {
+        if (user && userId) {
+          const roomId = generateId(user?._id, userId);
+          socket.emit("joinRoom", roomId);
+        }
+
+        socket.on("message", (res) => {
+          setChatLog((prevChatLog) => {
+            if (!prevChatLog.some((msg) => msg._id === res.data._id)) {
+              return [...prevChatLog, res.data];
+            }
+            return prevChatLog;
+          });
+        });
       });
     }
   }, [socket]);
