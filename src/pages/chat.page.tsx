@@ -85,6 +85,7 @@ const ChatPage = () => {
           setChatLog((prevChatLog) => {
             if (!prevChatLog.some((msg) => msg._id === res.data._id)) {
               return [...prevChatLog, res.data];
+              playSOund();
             }
             return prevChatLog;
           });
@@ -115,7 +116,6 @@ const ChatPage = () => {
         .post(`/api/chat/${userId}`, { message })
         .then((res) => {
           socket.emit("message", { message, data: res.data });
-          playSOund();
         })
         .catch((err) => {
           console.log(err);
