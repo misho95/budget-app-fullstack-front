@@ -148,20 +148,26 @@ const ExpensesContainer = () => {
           </select>
         </label>
       </div>
-      {expenseData.map((expense) => {
-        return (
-          <Expense
-            key={expense._id}
-            id={expense._id}
-            isArchived={expense.isArchived}
-            type={expense.type}
-            category={expense.category}
-            amount={expense.amount}
-            createdAt={expense.createdAt}
-            deleteExpense={deleteExpense}
-          />
-        );
-      })}
+      {expenseData.length === 0 && (
+        <h3 className="text-[18px] text-center text-indigo-500 font-semibold">
+          no Expense data found...
+        </h3>
+      )}
+      {expenseData.length > 0 &&
+        expenseData.map((expense) => {
+          return (
+            <Expense
+              key={expense._id}
+              id={expense._id}
+              isArchived={expense.isArchived}
+              type={expense.type}
+              category={expense.category}
+              amount={expense.amount}
+              createdAt={expense.createdAt}
+              deleteExpense={deleteExpense}
+            />
+          );
+        })}
     </div>
   );
 };
