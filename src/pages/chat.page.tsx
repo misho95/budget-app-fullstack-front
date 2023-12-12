@@ -5,6 +5,8 @@ import io, { Socket } from "socket.io-client";
 import axiosInstance from "../utils/axios";
 import { userGlobalStore } from "../utils/zustand.store";
 import { sha256 } from "js-sha256";
+import useSound from "use-sound";
+import boopSfx from "../../sounds/boop.mp3";
 
 const ChatPage = () => {
   const animatedPage = useSpring({
@@ -20,6 +22,7 @@ const ChatPage = () => {
   const { userId } = useParams();
   const user = userGlobalStore((state) => state.user);
   const navigate = useNavigate();
+  const [play] = useSound(boopSfx);
 
   interface MessageType {
     _id: string;
@@ -183,7 +186,10 @@ const ChatPage = () => {
             placeholder="Type a message..."
             className="w-full p-[10px] pr-[90px] rounded-full border-none focus:outline-none"
           />
-          <button className="absolute top-1/2 -translate-y-1/2 right-[15px] bg-green-500 py-[7px] px-[20px] rounded-full text-black/95 border-[1px] border-black/30 sm:hover:scale-95 duration-200">
+          <button
+            onClick={play}
+            className="absolute top-1/2 -translate-y-1/2 right-[15px] bg-green-500 py-[7px] px-[20px] rounded-full text-black/95 border-[1px] border-black/30 sm:hover:scale-95 duration-200"
+          >
             Send
           </button>
         </form>
