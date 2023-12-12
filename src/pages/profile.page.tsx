@@ -58,9 +58,7 @@ const ProfilePage = () => {
         axiosInstance
           .delete(`/api/auth/${userId}`)
           .then(() => {
-            localStorage.removeItem("accessToken");
-            clearUser();
-            navigate("/signin");
+            navigate("/");
           })
           .catch(() => {
             alert("NoT Allowed!");
