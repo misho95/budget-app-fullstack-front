@@ -150,13 +150,13 @@ const ExpensesContainer = () => {
         </label>
       </div>
       {expenseData.length === 0 && (
-        <div>
+        <div className="flex flex-col gap-[10px] justify-center items-center">
           <h3 className="text-[18px] text-center text-indigo-500 font-semibold">
             no Expense data found...
           </h3>
           <Link
             to={"/invoice"}
-            className="flex justify-center items-center bg-pink-500 h-[40px] w-fit p-[5px] text-white rounded-full sm:hover:scale-95 duration-200"
+            className="flex justify-center items-center bg-pink-500 h-[40px] w-fit px-[10px] py-[5px] text-white rounded-full sm:hover:scale-95 duration-200"
           >
             Add New Expense
           </Link>
