@@ -115,6 +115,7 @@ const ChatPage = () => {
         .post(`/api/chat/${userId}`, { message })
         .then((res) => {
           socket.emit("message", { message, data: res.data });
+          playSOund();
         })
         .catch((err) => {
           console.log(err);
@@ -189,10 +190,7 @@ const ChatPage = () => {
             placeholder="Type a message..."
             className="w-full p-[10px] pr-[90px] rounded-full border-none focus:outline-none"
           />
-          <button
-            onClick={playSOund}
-            className="absolute top-1/2 -translate-y-1/2 right-[15px] bg-green-500 py-[7px] px-[20px] rounded-full text-black/95 border-[1px] border-black/30 sm:hover:scale-95 duration-200"
-          >
+          <button className="absolute top-1/2 -translate-y-1/2 right-[15px] bg-green-500 py-[7px] px-[20px] rounded-full text-black/95 border-[1px] border-black/30 sm:hover:scale-95 duration-200">
             Send
           </button>
         </form>
