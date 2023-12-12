@@ -84,8 +84,8 @@ const ChatPage = () => {
         socket.on("message", (res) => {
           setChatLog((prevChatLog) => {
             if (!prevChatLog.some((msg) => msg._id === res.data._id)) {
-              return [...prevChatLog, res.data];
               playSOund();
+              return [...prevChatLog, res.data];
             }
             return prevChatLog;
           });
