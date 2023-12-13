@@ -1,5 +1,5 @@
 import { animated, useSpring } from "@react-spring/web";
-import { useState, useEffect, useRef, useLayoutEffect, useMemo } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import io, { Socket } from "socket.io-client";
 import axiosInstance from "../utils/axios";
@@ -7,6 +7,8 @@ import { userGlobalStore } from "../utils/zustand.store";
 import { sha256 } from "js-sha256";
 import messageSound from "../assets/message.mp3";
 import TypeingComponent from "../components/chat/typeing.component";
+import RenderedChatLog from "../components/chat/render.chat.log";
+import { MessageType } from "../components/chat/chat.types";
 
 const ChatPage = () => {
   const animatedPage = useSpring({
@@ -22,16 +24,6 @@ const ChatPage = () => {
   const { userId } = useParams();
   const user = userGlobalStore((state) => state.user);
   const navigate = useNavigate();
-
-  interface MessageType {
-    _id: string;
-    userName: string;
-    message: string;
-    sendFrom: string;
-    sendTo: string;
-    createdAt: Date;
-    updatedAt: Date;
-  }
 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [message, setMessage] = useState("");
@@ -84,29 +76,29 @@ const ChatPage = () => {
           setRoomId(roomId);
           socket.emit("joinRoom", roomId);
         }
+      });
 
-        socket.on("message", (res) => {
-          playSOund();
-          setChatLog((prevChatLog) => {
-            if (!prevChatLog.some((msg) => msg._id === res.data._id)) {
-              return [...prevChatLog, res.data];
-            }
-            return prevChatLog;
-          });
-        });
-
-        socket.on("typeing", (res) => {
-          if (res.userId === userId && res.isTypeing) {
-            setIsTypeing(true);
-            scrollDown();
-            return;
+      socket.on("message", (res) => {
+        playSOund();
+        setChatLog((prevChatLog) => {
+          if (!prevChatLog.some((msg) => msg._id === res.data._id)) {
+            return [...prevChatLog, res.data];
           }
-
-          if (res.userId === userId && !res.isTypeing) {
-            setIsTypeing(false);
-            return;
-          }
+          return prevChatLog;
         });
+      });
+
+      socket.on("typeing", (res) => {
+        if (res.userId === userId && res.isTypeing) {
+          setIsTypeing(true);
+          scrollDown();
+          return;
+        }
+
+        if (res.userId === userId && !res.isTypeing) {
+          setIsTypeing(false);
+          return;
+        }
       });
     }
   }, [socket]);
@@ -149,7 +141,11 @@ const ChatPage = () => {
       axiosInstance
         .post(`/api/chat/${userId}`, { message })
         .then((res) => {
-          socket.emit("message", { message, data: res.data });
+          socket.emit("message", {
+            message,
+            userId: user?._id,
+            data: res.data,
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -159,17 +155,13 @@ const ChatPage = () => {
     }
   };
 
-  const checkForPrevChat = (index: number, idToCheck: string | undefined) => {
-    if (chatLog[index]?.sendFrom !== idToCheck) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   const playSOund = () => {
     const audio = new Audio(messageSound);
-    audio.play();
+    audio.addEventListener("canplaythrough", () => {
+      audio.play().catch((error) => {
+        console.error("Play error:", error);
+      });
+    });
   };
 
   const handleType = (msg: string) => {
@@ -192,47 +184,11 @@ const ChatPage = () => {
     }
   };
 
-  const renderedChatLog = useMemo(() => {
-    return chatLog.map((chat, index) => {
-      return (
-        <div
-          key={chat._id}
-          className={`flex flex-col gap-[5px] w-full ${
-            chat.sendFrom !== user?._id ? "self-start" : "self-end"
-          }`}
-        >
-          {checkForPrevChat(index - 1, chat.sendFrom) && (
-            <h6
-              className={`text-[12px] text-black/60 ${
-                chat.sendFrom !== user?._id ? "self-start" : "self-end"
-              }`}
-            >
-              {chat.userName}
-            </h6>
-          )}
-
-          <div
-            className={`w-fit max-w-[200px]  p-[5px] rounded-lg text-white break-words ${
-              chat.sendFrom !== user?._id
-                ? "bg-pink-500 self-start"
-                : "bg-indigo-500 self-end"
-            }`}
-          >
-            {chat.message}
-          </div>
-        </div>
-      );
-    });
-  }, [chatLog]);
-
   return (
     <animated.div style={{ ...animatedPage }} className="flex justify-center">
       <div className="w-11/12 lg:w-[500px] bg-white shadow-sm shadow-black/10 p-[20px] rounded-xl flex flex-col gap-[15px]">
-        <div
-          ref={chatContainer}
-          className="h-[500px] overflow-y-auto flex flex-col gap-[5px]"
-        >
-          {renderedChatLog}
+        <div ref={chatContainer} className="h-[500px] overflow-y-auto">
+          {<RenderedChatLog chatLog={chatLog} />}
           {isTypeing && <TypeingComponent />}
         </div>
         <form
