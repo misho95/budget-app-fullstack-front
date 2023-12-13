@@ -145,7 +145,6 @@ const ChatPage = () => {
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (socket && message.trim() !== "") {
       axiosInstance
         .post(`/api/chat/${userId}`, { message })
@@ -155,12 +154,8 @@ const ChatPage = () => {
         .catch((err) => {
           console.log(err);
         });
+      handleType("");
       setMessage("");
-      socket.emit("typeing", {
-        roomId: getRoomId,
-        userId: user?._id,
-        isTypeing: false,
-      });
     }
   };
 
