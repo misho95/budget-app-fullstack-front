@@ -96,13 +96,13 @@ const ChatPage = () => {
         });
 
         socket.on("typeing", (res) => {
-          if (res.userId === userId && res.isTypeing && !isTypeing) {
+          if (res.userId === userId && res.isTypeing) {
             setIsTypeing(true);
             scrollDown();
             return;
           }
 
-          if (res.userId === userId && !res.isTypeing && isTypeing) {
+          if (res.userId === userId && !res.isTypeing) {
             setIsTypeing(false);
             return;
           }
