@@ -156,7 +156,11 @@ const ChatPage = () => {
           console.log(err);
         });
       setMessage("");
-      handleType(null);
+      socket.emit("typeing", {
+        roomId: getRoomId,
+        userId: user?._id,
+        isTypeing: false,
+      });
     }
   };
 
