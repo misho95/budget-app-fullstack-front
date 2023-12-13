@@ -145,6 +145,7 @@ const ChatPage = () => {
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleType();
     if (socket && message.trim() !== "") {
       axiosInstance
         .post(`/api/chat/${userId}`, { message })
