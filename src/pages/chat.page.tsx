@@ -6,6 +6,7 @@ import axiosInstance from "../utils/axios";
 import { userGlobalStore } from "../utils/zustand.store";
 import { sha256 } from "js-sha256";
 import messageSound from "../assets/message.mp3";
+import TypeingComponent from "../components/chat/typeing.component";
 
 const ChatPage = () => {
   const animatedPage = useSpring({
@@ -65,7 +66,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     const url = "https://budget-app-bz54x.ondigitalocean.app/";
-    const newSocket = io(`ws://localhost:8080`);
+    const newSocket = io(url);
     setSocket(newSocket);
 
     return () => {
@@ -231,7 +232,7 @@ const ChatPage = () => {
           className="h-[500px] overflow-y-auto flex flex-col gap-[5px]"
         >
           {renderedChatLog}
-          {isTypeing && <div>typeing...</div>}
+          {isTypeing && <TypeingComponent />}
         </div>
         <form
           onSubmit={sendMessage}
