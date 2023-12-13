@@ -156,7 +156,7 @@ const ChatPage = () => {
           console.log(err);
         });
       setMessage("");
-      handleType("");
+      handleType(null);
     }
   };
 
