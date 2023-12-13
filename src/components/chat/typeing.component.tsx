@@ -6,11 +6,18 @@ const TypeingComponent = () => {
   useEffect(() => {
     const audio = new Audio(typeingSound);
     audio.loop = true;
-    audio.play();
+
+    const playSound = () => {
+      audio.play().catch((error) => {
+        console.error("Play error:", error);
+      });
+    };
+    audio.addEventListener("canplaythrough", playSound);
 
     return () => {
       audio.pause();
       audio.currentTime = 0;
+      audio.removeEventListener("canplaythrough", playSound);
     };
   }, []);
 
