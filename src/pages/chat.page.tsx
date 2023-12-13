@@ -37,6 +37,7 @@ const ChatPage = () => {
   const [chatLog, setChatLog] = useState<MessageType[]>([]);
   const chatContainer = useRef<HTMLDivElement | null>(null);
   const [getRoomId, setRoomId] = useState<null | string>(null);
+  const [isTypeing, setIsTypeing] = useState(false);
 
   useLayoutEffect(() => {
     if (!userId || userId === user?._id) {
@@ -64,7 +65,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     const url = "https://budget-app-bz54x.ondigitalocean.app/";
-    const newSocket = io(url);
+    const newSocket = io(`ws://localhost:8080`);
     setSocket(newSocket);
 
     return () => {
@@ -91,6 +92,19 @@ const ChatPage = () => {
             }
             return prevChatLog;
           });
+        });
+
+        socket.on("typeing", (res) => {
+          if (res.userId === userId && res.isTypeing) {
+            setIsTypeing(true);
+            scrollDown();
+            return;
+          }
+
+          if (res.userId === userId && !res.isTypeing) {
+            setIsTypeing(false);
+            return;
+          }
         });
       });
     }
@@ -156,6 +170,26 @@ const ChatPage = () => {
     audio.play();
   };
 
+  const handleType = (msg: string) => {
+    if (msg !== "" && socket) {
+      socket.emit("typeing", {
+        roomId: getRoomId,
+        userId: user?._id,
+        isTypeing: true,
+      });
+      return;
+    }
+
+    if (!msg && socket) {
+      socket.emit("typeing", {
+        roomId: getRoomId,
+        userId: user?._id,
+        isTypeing: false,
+      });
+      return;
+    }
+  };
+
   const renderedChatLog = useMemo(() => {
     return chatLog.map((chat, index) => {
       return (
@@ -197,6 +231,7 @@ const ChatPage = () => {
           className="h-[500px] overflow-y-auto flex flex-col gap-[5px]"
         >
           {renderedChatLog}
+          {isTypeing && <div>typeing...</div>}
         </div>
         <form
           onSubmit={sendMessage}
@@ -205,7 +240,9 @@ const ChatPage = () => {
           <input
             type="text"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => {
+              setMessage(e.target.value), handleType(e.target.value);
+            }}
             placeholder="Type a message..."
             className="w-full p-[10px] pr-[90px] rounded-full border-none focus:outline-none"
           />
