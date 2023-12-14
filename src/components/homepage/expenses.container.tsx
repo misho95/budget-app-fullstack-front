@@ -186,7 +186,7 @@ const ExpensesContainer = () => {
           <>
             <Link
               to={"/invoice"}
-              className={`w-full p-[10px] bg-green-500/50 hover:bg-green-500/60 text-white flex justify-center items-center rounded-lg shadow-sm font-semibold font-sans scale-95 sm:hover:scale-100 duration-200`}
+              className={`w-full p-[10px] bg-green-500/50 hover:bg-green-500/70 text-white flex justify-center items-center rounded-lg shadow-sm font-semibold font-sans duration-200`}
             >
               Add New Expense
             </Link>
