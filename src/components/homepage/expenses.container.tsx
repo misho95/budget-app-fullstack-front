@@ -182,21 +182,30 @@ const ExpensesContainer = () => {
             </Link>
           </div>
         )}
-        {expenseData.length > 0 &&
-          expenseData.map((expense) => {
-            return (
-              <Expense
-                key={expense._id}
-                id={expense._id}
-                isArchived={expense.isArchived}
-                type={expense.type}
-                category={expense.category}
-                amount={expense.amount}
-                createdAt={expense.createdAt}
-                deleteExpense={deleteExpense}
-              />
-            );
-          })}
+        {expenseData.length > 0 && (
+          <>
+            <Link
+              to={"/invoice"}
+              className={`w-full p-[10px] bg-green-500/50 hover:bg-green-500/60 text-white flex justify-center items-center rounded-lg shadow-sm font-semibold font-sans scale-95 sm:hover:scale-100 duration-200`}
+            >
+              Add New Expense
+            </Link>
+            {expenseData.map((expense) => {
+              return (
+                <Expense
+                  key={expense._id}
+                  id={expense._id}
+                  isArchived={expense.isArchived}
+                  type={expense.type}
+                  category={expense.category}
+                  amount={expense.amount}
+                  createdAt={expense.createdAt}
+                  deleteExpense={deleteExpense}
+                />
+              );
+            })}
+          </>
+        )}
       </div>
     </>
   );
