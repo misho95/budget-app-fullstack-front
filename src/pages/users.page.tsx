@@ -31,50 +31,56 @@ const UsersPage = () => {
   return (
     <animated.div style={{ ...animatedPage }} className="flex justify-center">
       <div className="w-full lg:w-[500px] bg-white shadow-sm shadow-black/10 p-[20px] rounded-xl flex flex-col gap-[15px]">
-        {users.map((u) => {
-          return (
-            <div
-              key={u._id}
-              className="border-[1px] border-indigo-500/30 rounded-xl p-[10px] flex flex-col gap-[5px]"
-            >
-              <h3 className="text-[18px] font-semibold font-sans text-pink-500">
-                {u.userName}
-              </h3>
-              <span className="text-indigo-500 flex flex-col gap-[2px]">
-                <p>
-                  <span className="font-semibold">FirstName: </span>
-                  {u.firstName}
-                </p>
-                <p>
-                  <span className="font-semibold">Email: </span>
-                  {u.email}
-                </p>
-                <p>
-                  <span className="font-semibold">Role: </span>
-                  {u.role}
-                </p>
-                <p>
-                  <span className="font-semibold">Active: </span>
-                  {u.active ? "active" : "not Active"}
-                </p>
-              </span>
-              {u._id !== user?._id && (
-                <Link
-                  to={`/chat/${u._id}`}
-                  className="bg-indigo-500 py-[3px] rounded-lg text-white sm:hover:scale-95 duration-200 flex justify-center items-center"
-                >
-                  Chat User
-                </Link>
-              )}
-              <Link
-                to={`/profile/${u._id}`}
-                className="bg-pink-500 py-[3px] rounded-lg text-white sm:hover:scale-95 duration-200 flex justify-center items-center"
+        {users.length === 0 && (
+          <div className="text-center font-semibold text-indigo-500 italic">
+            No other users found
+          </div>
+        )}
+        {users.length > 0 &&
+          users.map((u) => {
+            return (
+              <div
+                key={u._id}
+                className="border-[1px] border-indigo-500/30 rounded-xl p-[10px] flex flex-col gap-[5px]"
               >
-                Check Profile
-              </Link>
-            </div>
-          );
-        })}
+                <h3 className="text-[18px] font-semibold font-sans text-pink-500">
+                  {u.userName}
+                </h3>
+                <span className="text-indigo-500 flex flex-col gap-[2px]">
+                  <p>
+                    <span className="font-semibold">FirstName: </span>
+                    {u.firstName}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Email: </span>
+                    {u.email}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Role: </span>
+                    {u.role}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Active: </span>
+                    {u.active ? "active" : "not Active"}
+                  </p>
+                </span>
+                {u._id !== user?._id && (
+                  <Link
+                    to={`/chat/${u._id}`}
+                    className="bg-indigo-500 py-[3px] rounded-lg text-white sm:hover:scale-95 duration-200 flex justify-center items-center"
+                  >
+                    Chat User
+                  </Link>
+                )}
+                <Link
+                  to={`/profile/${u._id}`}
+                  className="bg-pink-500 py-[3px] rounded-lg text-white sm:hover:scale-95 duration-200 flex justify-center items-center"
+                >
+                  Check Profile
+                </Link>
+              </div>
+            );
+          })}
       </div>
     </animated.div>
   );
