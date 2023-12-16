@@ -13,21 +13,11 @@ const ProtectedRout = ({ children }: PropsType) => {
   const setUser = userGlobalStore((state) => state.setUser);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-
-    if (!token) {
-      navigate("/signin");
-      return;
-    }
-
     axiosInstance
       .get("/api/auth/session", {
-        headers: {
-          authorization: token,
-        },
+        withCredentials: true,
       })
       .then((response) => {
-        axiosInstance.defaults.headers.common["Authorization"] = token;
         setUser(response.data);
         if (!response.data.active) {
           axiosInstance.put("/api/auth/activate");
@@ -35,7 +25,6 @@ const ProtectedRout = ({ children }: PropsType) => {
       })
       .catch((err) => {
         console.log(err);
-        localStorage.removeItem("accessToken");
         navigate("/signin");
       });
   }, []);
