@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "https://budget-app-bz54x.ondigitalocean.app";
+const url = "http://localhost:8080/";
 
 const axiosInstance = axios.create({
   baseURL: url,

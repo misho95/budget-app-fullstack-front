@@ -6,6 +6,7 @@ import { animated, useSpring } from "@react-spring/web";
 import { useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { userGlobalStore } from "../utils/zustand.store";
+import axiosInstance from "../utils/axios";
 
 export interface InputType {
   value: string;
@@ -97,26 +98,26 @@ const SingUpPage = () => {
       setRePassword({ value: rePassword.value, error: null });
     }
 
-    axios
-      .post("https://budget-app-bz54x.ondigitalocean.app/api/auth/signup", {
+    axiosInstance
+      .post("/api/auth/signup", {
         firstName: firstName.value,
         username: userName.value,
         email: email.value,
         password: password.value,
       })
-      .then(function (response) {
-        const token = response.data.accessToken;
-        localStorage.setItem("accessToken", token);
+      .then(() => {
         navigate("/");
         return;
       })
       .catch(function (error) {
-        const message = error.response.data.message;
-        if (message === "email taken!") {
-          setEmail({ value: email.value, error: "Email Taken!" });
-        } else {
-          setEmail({ value: email.value, error: null });
-        }
+        console.log(error);
+
+        // const message = error.response.data.message;
+        // if (message === "email taken!") {
+        //   setEmail({ value: email.value, error: "Email Taken!" });
+        // } else {
+        //   setEmail({ value: email.value, error: null });
+        // }
       });
   };
 

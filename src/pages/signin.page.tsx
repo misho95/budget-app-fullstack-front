@@ -66,18 +66,11 @@ const SingInPage = () => {
     }
 
     axiosInstance
-      .post(
-        "/api/auth/signin",
-        {
-          email: email.value,
-          password: password.value,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then(function (response) {
-        console.log(response);
+      .post("/api/auth/signin", {
+        email: email.value,
+        password: password.value,
+      })
+      .then(function () {
         navigate("/");
         return;
       })
